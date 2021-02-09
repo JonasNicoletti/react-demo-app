@@ -1,12 +1,11 @@
-import Footer from "modules/common/components/footer/Footer";
-import Header from "modules/common/components/header/Header";
+import {Footer, Header} from "modules/common/components/";
 import Home from "modules/home/components/Home";
-import React from "react";
+
 import "./App.css";
 function App() {
   return (
     <div className="App">
-      <Header></Header>
+      <Header/>
       <Home />
       <Footer />
     </div>
