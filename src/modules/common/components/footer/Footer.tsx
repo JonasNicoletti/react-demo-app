@@ -1,5 +1,4 @@
-import { Container, makeStyles, Typography } from "@material-ui/core";
-import React from "react";
+import { makeStyles } from "@material-ui/core";
 import "./Footer.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,15 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Footer() {
   const classes = useStyles();
-  return (
-    <footer className={classes.footer}>
-      <Container maxWidth="sm">
-        <Typography variant="body1">
-          My sticky footer can be found here.
-        </Typography>
-      </Container>
-    </footer>
-  );
+  return <footer className={classes.footer}></footer>;
 }
 
 export default Footer;

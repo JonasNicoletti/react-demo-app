@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100vh",
   },
   main: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
   },
 }));
@@ -31,7 +31,7 @@ function App() {
       <CssBaseline />
       <div className={classes.root}>
         <Header isDark={isDark} onToogle={toogle} />
-        <Container component="main" className={classes.main} maxWidth="md">
+        <Container className={classes.main} maxWidth="md">
           <Home />
         </Container>
         <Footer />

@@ -4,7 +4,6 @@ import ToggleButton from "@material-ui/lab/ToggleButton";
 
 const useStyles = makeStyles((theme) => ({
   header: {
-    padding: theme.spacing(3, 2),
     backgroundColor:
       theme.palette.type === "light"
         ? theme.palette.grey[200]
@@ -23,11 +22,7 @@ type HeaderProps = {
 function Header({ isDark = false, onToogle }: HeaderProps) {
   const classes = useStyles();
 
-  const icon = !isDark ? (
-    <Brightness7 color="inherit" />
-  ) : (
-    <Brightness3 color="inherit" />
-  );
+  const icon = isDark ? <Brightness3 /> : <Brightness7 />;
 
   return (
     <Toolbar className={classes.header}>
