@@ -10,6 +10,7 @@ import { light, dark } from "theme";
 import Home from "modules/home/components/Home";
 import "./App.css";
 import { useToogleTheme } from "modules/common/hooks";
+import { AuthProvider } from "modules/common/contexts/auth-context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,14 +29,16 @@ function App() {
   const appliedTheme = createMuiTheme(isDark ? light : dark);
   return (
     <ThemeProvider theme={appliedTheme}>
-      <CssBaseline />
-      <div className={classes.root}>
-        <Header isDark={isDark} onToogle={toogle} />
-        <Container className={classes.main} maxWidth="md">
-          <Home />
-        </Container>
-        <Footer />
-      </div>
+      <AuthProvider>
+        <CssBaseline />
+        <div className={classes.root}>
+          <Header isDark={isDark} onToogle={toogle} />
+          <Container className={classes.main} maxWidth="md">
+            <Home />
+          </Container>
+          <Footer />
+        </div>
+      </AuthProvider>
     </ThemeProvider>
   );
 }
