@@ -11,6 +11,10 @@ import Home from "modules/home/components/Home";
 import "./App.css";
 import { useToogleTheme } from "modules/common/hooks";
 import { AuthProvider } from "modules/common/contexts/auth-context";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from "react";
+import { Login } from "modules/login/components/Login";
+import { Registration } from "modules/registration/components/Registration";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,11 +36,23 @@ function App() {
       <AuthProvider>
         <CssBaseline />
         <div className={classes.root}>
-          <Header isDark={isDark} onToogle={toogle} />
-          <Container className={classes.main} maxWidth="md">
-            <Home />
-          </Container>
-          <Footer />
+          <Router>
+            <Header isDark={isDark} onToogle={toogle} />
+            <Container className={classes.main} maxWidth="md">
+              <Switch>
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route path="/login">
+                  <Login />
+                </Route>
+                <Route path="/register">
+                  <Registration />
+                </Route>
+              </Switch>
+            </Container>
+            <Footer />
+          </Router>
         </div>
       </AuthProvider>
     </ThemeProvider>

@@ -1,6 +1,5 @@
-import { makeStyles, Toolbar } from "@material-ui/core";
-import { Brightness7, Brightness3 } from "@material-ui/icons";
-import ToggleButton from "@material-ui/lab/ToggleButton";
+import { makeStyles, Toolbar, Switch, Box, Link } from "@material-ui/core";
+import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -12,6 +11,9 @@ const useStyles = makeStyles((theme) => ({
   themeToogle: {
     marginLeft: "auto",
   },
+  link: {
+    marginRight: theme.spacing(2),
+  },
 }));
 
 type HeaderProps = {
@@ -22,18 +24,27 @@ type HeaderProps = {
 function Header({ isDark = false, onToogle }: HeaderProps) {
   const classes = useStyles();
 
-  const icon = isDark ? <Brightness3 /> : <Brightness7 />;
-
   return (
     <Toolbar className={classes.header}>
-      <ToggleButton
-        className={classes.themeToogle}
-        value="check"
-        selected={isDark}
-        onChange={() => onToogle()}
-      >
-        {icon}
-      </ToggleButton>
+      <Box className={classes.themeToogle}>
+        <Link
+          color="primary"
+          component={RouterLink}
+          to="/login"
+          className={classes.link}
+        >
+          Login
+        </Link>
+        <Link
+          color="secondary"
+          component={RouterLink}
+          to="/register"
+          className={classes.link}
+        >
+          Registration
+        </Link>
+        <Switch checked={isDark} color="default" onChange={() => onToogle()} />
+      </Box>
     </Toolbar>
   );
 }
