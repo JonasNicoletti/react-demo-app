@@ -9,5 +9,11 @@ export const light: ThemeOptions = {
 export const dark: ThemeOptions = {
   palette: {
     type: 'dark',
+    primary: {
+      main: '#BF3A27'
+    },
+    secondary: {
+      main: '#678785'
+    }
   },
 };
