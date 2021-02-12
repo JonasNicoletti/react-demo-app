@@ -15,25 +15,26 @@ type UserLoginType = {
   username: String;
   password: String;
 };
+type UserRegisterType = UserLoginType & {
+  name: String;
+};
 
 type Action =
-  | { type: "register" }
+  | { type: "register"; payload: UserRegisterType }
   | { type: "login"; payload: UserLoginType }
   | { type: "logout" };
 
-type AuthContextProps =
-  | AuthState
-  | {
-      register: Function;
-      login: Function;
-      logout: Function;
-    };
+type AuthContextProps = AuthState & {
+  register: Function;
+  login: Function;
+  logout: Function;
+};
 
 const AuthContext = React.createContext<AuthContextProps>({
   isLoggedIn: false,
   accessToken: null,
   refreshToken: null,
-  register: () => {},
+  register: (value: UserRegisterType) => {},
   login: (username: String, password: String) => {},
   logout: () => {},
 });
@@ -43,6 +44,9 @@ const reducer = (state: AuthState, action: Action): AuthState => {
     case "register":
       return {
         ...state,
+        isLoggedIn: true,
+        accessToken: "accessToken",
+        refreshToken: "refreshToken",
       };
     case "login":
       return {
@@ -68,7 +72,11 @@ type AuthProviderProps = {
 function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
-  const register = () => {};
+  const register = (value: UserRegisterType) =>
+    dispatch({
+      type: "register",
+      payload: { ...value },
+    });
   const login = (username: String, password: String) =>
     dispatch({
       type: "login",
