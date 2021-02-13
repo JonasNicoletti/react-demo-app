@@ -11,7 +11,7 @@ import { light, dark } from "theme";
 import Home from "modules/home/components/Home";
 import "./App.css";
 import { useToogleTheme } from "modules/common/hooks";
-import { AuthProvider, useAuth } from "modules/common/contexts/auth-context";
+import { useAuth } from "modules/common/contexts/auth-context";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import React, { useEffect } from "react";
 import { Login } from "modules/login/components/Login";
