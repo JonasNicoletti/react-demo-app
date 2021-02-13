@@ -1,41 +1,31 @@
 import React, { ReactNode, useReducer } from "react";
+import { User } from "../models/user";
 type AuthState = {
   isLoggedIn: boolean;
-  accessToken: String | null;
-  refreshToken: String | null;
+  user: User | null;
 };
 
 const INIT_STATE: AuthState = {
   isLoggedIn: false,
-  accessToken: null,
-  refreshToken: null,
-};
-
-type UserLoginType = {
-  username: String;
-  password: String;
-};
-type UserRegisterType = UserLoginType & {
-  name: String;
+  user: null,
 };
 
 type Action =
-  | { type: "register"; payload: UserRegisterType }
-  | { type: "login"; payload: UserLoginType }
+  | { type: "register"; payload: User }
+  | { type: "login"; payload: User }
   | { type: "logout" };
 
 type AuthContextProps = AuthState & {
-  register: Function;
-  login: Function;
-  logout: Function;
+  register: (value: User) => void;
+  login: (value: User) => void;
+  logout: () => void;
 };
 
 const AuthContext = React.createContext<AuthContextProps>({
   isLoggedIn: false,
-  accessToken: null,
-  refreshToken: null,
-  register: (value: UserRegisterType) => {},
-  login: (username: String, password: String) => {},
+  user: null,
+  register: (value: User) => {},
+  login: (value: User) => {},
   logout: () => {},
 });
 
@@ -45,22 +35,19 @@ const reducer = (state: AuthState, action: Action): AuthState => {
       return {
         ...state,
         isLoggedIn: true,
-        accessToken: "accessToken",
-        refreshToken: "refreshToken",
+        user: action.payload,
       };
     case "login":
       return {
         ...state,
         isLoggedIn: true,
-        accessToken: "accessToken",
-        refreshToken: "refreshToken",
+        user: action.payload,
       };
     case "logout":
       return {
         ...state,
         isLoggedIn: false,
-        accessToken: null,
-        refreshToken: null,
+        user: null,
       };
     default:
       return state;
@@ -72,16 +59,17 @@ type AuthProviderProps = {
 function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(reducer, INIT_STATE);
 
-  const register = (value: UserRegisterType) =>
+  const register = (user: User) =>
     dispatch({
       type: "register",
-      payload: { ...value },
+      payload: user,
     });
-  const login = (username: String, password: String) =>
+  const login = (user: User) =>
     dispatch({
       type: "login",
-      payload: { username: username, password: password },
+      payload: user,
     });
+
   const logout = () => dispatch({ type: "logout" });
 
   return (

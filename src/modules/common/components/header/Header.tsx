@@ -23,9 +23,17 @@ type HeaderProps = {
 
 function Header({ isDark = false, onToogle }: HeaderProps) {
   const classes = useStyles();
-
   return (
     <Toolbar className={classes.header}>
+      <Link
+        color="textPrimary"
+        variant="h6"
+        component={RouterLink}
+        to="/"
+        //className={classes.title}
+      >
+        Home
+      </Link>
       <Box className={classes.themeToogle}>
         <Link
           color="primary"

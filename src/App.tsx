@@ -3,6 +3,7 @@ import {
   makeStyles,
   CssBaseline,
   ThemeProvider,
+  CircularProgress,
 } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { Footer, Header } from "modules/common/components/";
@@ -10,11 +11,13 @@ import { light, dark } from "theme";
 import Home from "modules/home/components/Home";
 import "./App.css";
 import { useToogleTheme } from "modules/common/hooks";
-import { AuthProvider } from "modules/common/contexts/auth-context";
+import { AuthProvider, useAuth } from "modules/common/contexts/auth-context";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import React from "react";
+import React, { useEffect } from "react";
 import { Login } from "modules/login/components/Login";
 import { Registration } from "modules/registration/components/Registration";
+import { Api } from "modules/common/api";
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,11 +34,25 @@ function App() {
   const classes = useStyles();
   const [isDark, toogle] = useToogleTheme();
   const appliedTheme = createMuiTheme(isDark ? light : dark);
+  const { isLoggedIn, login } = useAuth();
+  const [isLoaded, setIsLoaded] = useState(false);
+  useEffect(() => {
+    async function checklogin() {
+      try {
+        const user = await Api.getInstance().auth();
+        login(user);
+      } catch {}
+      setIsLoaded(true);
+    }
+    if (!isLoggedIn) {
+      checklogin();
+    }
+  }, [isLoggedIn, login]);
   return (
     <ThemeProvider theme={appliedTheme}>
-      <AuthProvider>
-        <CssBaseline />
-        <div className={classes.root}>
+      <CssBaseline />
+      <div className={classes.root}>
+        {isLoaded ? (
           <Router>
             <Header isDark={isDark} onToogle={toogle} />
             <Container className={classes.main} maxWidth="md">
@@ -53,8 +70,10 @@ function App() {
             </Container>
             <Footer />
           </Router>
-        </div>
-      </AuthProvider>
+        ) : (
+          <CircularProgress />
+        )}
+      </div>
     </ThemeProvider>
   );
 }

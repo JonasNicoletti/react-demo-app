@@ -5,7 +5,7 @@ export class Api extends HttpClient {
   private static classInstance?: Api;
 
   private constructor() {
-    super('https://eaa4ee00-76a7-4fda-bcb2-e81c13585b6a-8080.apps.codespaces.githubusercontent.com');
+    super(process.env.REACT_APP_API_BASE);
   }
 
   public static getInstance() {
@@ -16,9 +16,11 @@ export class Api extends HttpClient {
     return this.classInstance;
   }
 
-  public register = (user: User) => this.instance.post<User>('/auth/register', user,);
+  public register = (user: User) => this.instance.post<User>('/auth/register', user, { withCredentials: true });
 
-  public auth = () => this.instance.get<User>('/auth');
+  public login = (values: { email: string; password: string; }) => this.instance.post<User>('/auth/log-in', values, { withCredentials: true })
+
+  public auth = () => this.instance.get<User>('/auth', { withCredentials: true });
 
 
 }
