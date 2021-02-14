@@ -5,7 +5,6 @@ import "./Home.css";
 
 function Home() {
   const { user } = useAuth();
-  console.log(user);
   const features = user?.features?.map((feat) => (
     <p key={feat.id}>{feat.title}</p>
   ));

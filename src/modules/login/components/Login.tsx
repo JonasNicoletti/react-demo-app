@@ -52,8 +52,8 @@ export function Login() {
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
-      email: "sjnao89@gmail.com",
-      password: "Jonas89!",
+      email: "",
+      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
