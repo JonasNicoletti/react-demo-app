@@ -38,7 +38,6 @@ function Header({ isDark = false, onToogle }: HeaderProps) {
     logout();
   };
   let links;
-  console.log(isLoggedIn);
   if (isLoggedIn) {
     links = [
       <Button key="logout" color="secondary" onClick={handleLogout}>
@@ -80,4 +79,4 @@ function Header({ isDark = false, onToogle }: HeaderProps) {
   );
 }
 
-export default Header;
+export { Header };

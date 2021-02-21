@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 
-export function useToogleTheme() {
+function useToogleTheme() {
     const [state, setState] = useState(localStorage.getItem('theme')?.startsWith('dark') || false);
     const toggle = useCallback(() => {
         setState((currentState) => !currentState);
@@ -8,3 +8,5 @@ export function useToogleTheme() {
     }, [state]);
     return [state, toggle] as const;
 }
+
+export { useToogleTheme };

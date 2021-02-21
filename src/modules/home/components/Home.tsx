@@ -1,6 +1,5 @@
 import { useAuth } from "modules/common/contexts/auth-context";
-import { Link } from "@material-ui/core";
-import { Link as RouterLink } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 import "./Home.css";
 
 function Home() {
@@ -15,9 +14,7 @@ function Home() {
           Hello {user.name} <ul>{features}</ul>
         </div>
       ) : (
-        <Link href="#" variant="body2" component={RouterLink} to="/login">
-          Log in
-        </Link>
+        <Typography>Please log-in</Typography>
       )}
     </div>
   );

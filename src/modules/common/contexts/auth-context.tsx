@@ -1,5 +1,7 @@
 import React, { ReactNode, useReducer } from "react";
 import { User } from "../models/user";
+import { Error } from "../models/error";
+import { useSnackbar } from "notistack";
 type AuthState = {
   isLoggedIn: boolean;
   user: User | null;
@@ -17,16 +19,18 @@ type Action =
 
 type AuthContextProps = AuthState & {
   register: (value: User) => void;
-  login: (value: User) => void;
+  login: (value: User, showSnackBar?: boolean) => void;
   logout: () => void;
+  setError: (value: Error) => void;
 };
 
 const AuthContext = React.createContext<AuthContextProps>({
   isLoggedIn: false,
   user: null,
   register: (value: User) => {},
-  login: (value: User) => {},
+  login: (value: User, showSnackBar?: boolean) => {},
   logout: () => {},
+  setError: (value: Error) => {},
 });
 
 const reducer = (state: AuthState, action: Action): AuthState => {
@@ -58,23 +62,42 @@ type AuthProviderProps = {
 };
 function AuthProvider({ children }: AuthProviderProps) {
   const [state, dispatch] = useReducer(reducer, INIT_STATE);
+  const { enqueueSnackbar } = useSnackbar();
 
-  const register = (user: User) =>
+  const register = (user: User) => {
+    enqueueSnackbar("Succesfully registered", { variant: "success" });
+
     dispatch({
       type: "register",
       payload: user,
     });
-  const login = (user: User) =>
+  };
+  const login = (user: User, showSnackBar: boolean = true) => {
+    if (showSnackBar) {
+      enqueueSnackbar("Succesfully logged in", { variant: "success" });
+    }
+
     dispatch({
       type: "login",
       payload: user,
     });
+  };
 
   const logout = () => dispatch({ type: "logout" });
 
+  const setError = (error: Error) => {
+    enqueueSnackbar(error.message, { variant: "error" });
+  };
+
   return (
     <AuthContext.Provider
-      value={{ ...state, register: register, login: login, logout: logout }}
+      value={{
+        ...state,
+        register: register,
+        login: login,
+        logout: logout,
+        setError: setError,
+      }}
     >
       {children}
     </AuthContext.Provider>

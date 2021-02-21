@@ -1,3 +1,1 @@
-import { useToogleTheme } from './toogle-theme';
-
-export { useToogleTheme };
+export * from './toogle-theme';

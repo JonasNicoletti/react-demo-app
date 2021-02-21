@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "modules/common/contexts/auth-context";
+import { SnackbarProvider } from "notistack";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    <SnackbarProvider maxSnack={3}>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </SnackbarProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

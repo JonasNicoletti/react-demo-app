@@ -6,7 +6,6 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { Footer, Header } from "modules/common/components/";
 import { light, dark } from "theme";
 import Home from "modules/home/components/Home";
 import "./App.css";
@@ -18,6 +17,7 @@ import { Login } from "modules/login/components/Login";
 import { Registration } from "modules/registration/components/Registration";
 import { Api } from "modules/common/api";
 import { useState } from "react";
+import { Footer, Header } from "modules/common/components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +40,7 @@ function App() {
     async function checklogin() {
       try {
         const user = await Api.getInstance().auth();
-        login(user);
+        login(user, false);
       } catch {}
       setIsLoaded(true);
     }
@@ -48,6 +48,7 @@ function App() {
       checklogin();
     }
   }, [isLoggedIn, login]);
+
   return (
     <ThemeProvider theme={appliedTheme}>
       <CssBaseline />

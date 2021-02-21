@@ -48,7 +48,7 @@ const validationSchema = yup.object({
 export function Login() {
   const classes = useStyles();
   const api = Api.getInstance();
-  const { login } = useAuth();
+  const { login, setError } = useAuth();
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
@@ -57,9 +57,13 @@ export function Login() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const user = await api.login({ ...values });
-      login(user);
-      history.push("/");
+      try {
+        const user = await api.login({ ...values });
+        login(user);
+        history.push("/");
+      } catch (error) {
+        setError({ message: error.response.data.message });
+      }
     },
   });
   return (
