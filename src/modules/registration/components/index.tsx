@@ -51,7 +51,7 @@ const validationSchema = yup.object({
     .required("Password is required"),
 });
 
-export function Registration() {
+function Registration() {
   const classes = useStyles();
   const api = Api.getInstance();
   const { register } = useAuth();
@@ -148,3 +148,4 @@ export function Registration() {
     </Container>
   );
 }
+export { Registration };

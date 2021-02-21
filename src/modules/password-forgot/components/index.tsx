@@ -8,13 +8,13 @@ import {
   Link,
   makeStyles,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import * as yup from "yup";
 import { useFormik } from "formik";
-import { Link as RouterLink, useHistory } from "react-router-dom";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { Api } from "modules/common/api";
 import { useAuth } from "modules/common/contexts/auth-context";
-
+import { Link as RouterLink } from "react-router-dom";
+import * as yup from "yup";
+import { useSnackbar } from "notistack";
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -40,32 +40,27 @@ const validationSchema = yup.object({
     .string()
     .email("Enter a valid email")
     .required("Email is required"),
-  password: yup
-    .string()
-    .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
 });
-export function Login() {
+function PasswordForgot() {
   const classes = useStyles();
   const api = Api.getInstance();
-  const { login, setError } = useAuth();
-  const history = useHistory();
+  const { setError } = useAuth();
+  const { enqueueSnackbar } = useSnackbar();
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        const user = await api.login({ ...values });
-        login(user);
-        history.push("/");
+        await api.forgotPassword({ email: values.email });
+        enqueueSnackbar("Check your inbox!", { variant: "info" });
       } catch (error) {
         setError({ message: error.response.data.message });
       }
     },
   });
+
   return (
     <Container component="main" maxWidth="xs">
       <div className={classes.paper}>
@@ -73,7 +68,7 @@ export function Login() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
+          Password Reset
         </Typography>
         <form className={classes.form} onSubmit={formik.handleSubmit}>
           <TextField
@@ -90,20 +85,7 @@ export function Login() {
             error={formik.touched.email && Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
+
           <Button
             type="submit"
             fullWidth
@@ -111,15 +93,10 @@ export function Login() {
             color="primary"
             className={classes.submit}
           >
-            Sign In
+            Request Password Reset
           </Button>
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
               <Link
                 href="#"
                 variant="body2"
@@ -135,3 +112,5 @@ export function Login() {
     </Container>
   );
 }
+
+export { PasswordForgot };

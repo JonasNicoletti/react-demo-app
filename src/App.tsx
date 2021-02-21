@@ -7,17 +7,18 @@ import {
 } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { light, dark } from "theme";
-import Home from "modules/home/components/Home";
 import "./App.css";
 import { useToogleTheme } from "modules/common/hooks";
 import { useAuth } from "modules/common/contexts/auth-context";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import React, { useEffect } from "react";
-import { Login } from "modules/login/components/Login";
-import { Registration } from "modules/registration/components/Registration";
+import { Login } from "modules/login/components";
+import { Registration } from "modules/registration/components";
 import { Api } from "modules/common/api";
 import { useState } from "react";
 import { Footer, Header } from "modules/common/components";
+import { Home } from "modules/home/components";
+import { PasswordForgot } from "modules/password-forgot/components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,6 +67,9 @@ function App() {
                 </Route>
                 <Route path="/register">
                   <Registration />
+                </Route>
+                <Route path="/password-forgot">
+                  <PasswordForgot />
                 </Route>
               </Switch>
             </Container>
