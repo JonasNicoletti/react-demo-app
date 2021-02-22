@@ -25,4 +25,6 @@ export class Api extends HttpClient {
   public logout = () => this.instance.post('/auth/log-out', {}, { withCredentials: true });
 
   public forgotPassword = (values: { email: string; }) => this.instance.post('/auth/forgot-password', values);
+
+  public resetPwd = (values: { newPassword: any; token: string; }) => this.instance.post('/auth/reset-password', values);
 }

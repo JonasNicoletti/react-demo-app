@@ -20,6 +20,7 @@ type Action =
 type AuthContextProps = AuthState & {
   register: (value: User) => void;
   login: (value: User, showSnackBar?: boolean) => void;
+  resetPwd: (value: User) => void;
   logout: () => void;
   setError: (value: Error) => void;
 };
@@ -29,6 +30,7 @@ const AuthContext = React.createContext<AuthContextProps>({
   user: null,
   register: (value: User) => {},
   login: (value: User, showSnackBar?: boolean) => {},
+  resetPwd: (value: User) => {},
   logout: () => {},
   setError: (value: Error) => {},
 });
@@ -82,6 +84,16 @@ function AuthProvider({ children }: AuthProviderProps) {
       payload: user,
     });
   };
+  const resetPwd = (user: User, showSnackBar: boolean = true) => {
+    if (showSnackBar) {
+      enqueueSnackbar("Password changed!", { variant: "success" });
+    }
+
+    dispatch({
+      type: "login",
+      payload: user,
+    });
+  };
 
   const logout = () => dispatch({ type: "logout" });
 
@@ -97,6 +109,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         login: login,
         logout: logout,
         setError: setError,
+        resetPwd: resetPwd,
       }}
     >
       {children}

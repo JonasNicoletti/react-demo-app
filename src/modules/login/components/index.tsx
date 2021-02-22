@@ -39,6 +39,8 @@ function Login() {
       initialValues={initialValues}
       successFn={successFn}
       errorFn={errorFn}
+      linkPwdForgot
+      linkSignUp
     />
   );
 }
