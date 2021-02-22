@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core";
-import "./Footer.css";
 
 const useStyles = makeStyles((theme) => ({
   footer: {

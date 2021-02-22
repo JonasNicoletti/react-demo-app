@@ -19,6 +19,7 @@ import { useState } from "react";
 import { Footer, Header } from "modules/common/components";
 import { Home } from "modules/home/components";
 import { PasswordForgot } from "modules/password-forgot/components";
+import { PasswordReset } from "modules/password-reset/components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,6 +71,9 @@ function App() {
                 </Route>
                 <Route path="/password-forgot">
                   <PasswordForgot />
+                </Route>
+                <Route path="/reset-password/:token">
+                  <PasswordReset />
                 </Route>
               </Switch>
             </Container>

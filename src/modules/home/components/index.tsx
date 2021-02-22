@@ -1,6 +1,5 @@
 import { useAuth } from "modules/common/contexts/auth-context";
 import { Typography } from "@material-ui/core";
-import "./Home.css";
 
 function Home() {
   const { user } = useAuth();
