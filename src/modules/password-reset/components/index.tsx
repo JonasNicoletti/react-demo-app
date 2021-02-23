@@ -1,7 +1,6 @@
 import { Api } from "modules/common/api";
 import { AuthForm } from "modules/common/components/auth-form";
 import { useAuth } from "modules/common/contexts/auth-context";
-import { Login } from "modules/login/components";
 import { useHistory, useParams } from "react-router-dom";
 import * as yup from "yup";
 

@@ -4,10 +4,14 @@ import {
   Switch,
   Box,
   Link,
-  Button,
+  Menu,
+  IconButton,
+  MenuItem,
 } from "@material-ui/core";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Api } from "modules/common/api";
 import { useAuth } from "modules/common/contexts/auth-context";
+import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,19 +37,56 @@ type HeaderProps = {
 function Header({ isDark = false, onToogle }: HeaderProps) {
   const classes = useStyles();
   const { isLoggedIn, logout } = useAuth();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleLogout = async () => {
     await Api.getInstance().logout();
     logout();
   };
-  let links;
+
+  let actions;
   if (isLoggedIn) {
-    links = [
-      <Button key="logout" color="secondary" onClick={handleLogout}>
-        Logout
-      </Button>,
+    actions = [
+      <>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          color="secondary"
+          onClick={handleMenu}
+        >
+          <AccountCircle />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          id="menu-appbar"
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "left",
+          }}
+          keepMounted
+          transformOrigin={{
+            vertical: "bottom",
+            horizontal: "left",
+          }}
+          open={open}
+          onClose={() => handleClose()}
+        >
+          <MenuItem onClick={handleClose}>Profile</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
+      </>,
     ];
   } else {
-    links = [
+    actions = [
       <Link
         key="login"
         color="primary"
@@ -72,7 +113,7 @@ function Header({ isDark = false, onToogle }: HeaderProps) {
         Home
       </Link>
       <Box className={classes.themeToogle}>
-        {links}
+        {actions}
         <Switch checked={isDark} color="default" onChange={() => onToogle()} />
       </Box>
     </Toolbar>

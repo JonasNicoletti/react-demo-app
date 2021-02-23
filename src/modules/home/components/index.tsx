@@ -3,15 +3,10 @@ import { Typography } from "@material-ui/core";
 
 function Home() {
   const { user } = useAuth();
-  const features = user?.features?.map((feat) => (
-    <p key={feat.id}>{feat.title}</p>
-  ));
   return (
     <div>
       {user ? (
-        <div>
-          Hello {user.name} <ul>{features}</ul>
-        </div>
+        <Typography variant="caption">Hello {user.name}</Typography>
       ) : (
         <Typography>Please log-in</Typography>
       )}
