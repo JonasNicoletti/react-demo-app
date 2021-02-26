@@ -12,7 +12,7 @@ import { useToogleTheme } from "modules/common/hooks";
 import { useAuth } from "modules/common/contexts/auth-context";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useEffect } from "react";
-import { Login, Registration, PasswordForgot, PasswordReset } from "modules/auth";
+import { Auth } from "modules/auth";
 import { Api } from "modules/common/api";
 import { useState } from "react";
 import { Footer, Header } from "modules/common/components";
@@ -60,18 +60,7 @@ function App() {
                 <Route exact path="/">
                   <Home />
                 </Route>
-                <Route path="/login">
-                  <Login />
-                </Route>
-                <Route path="/register">
-                  <Registration />
-                </Route>
-                <Route path="/password-forgot">
-                  <PasswordForgot />
-                </Route>
-                <Route path="/reset-password/:token">
-                  <PasswordReset />
-                </Route>
+                <Auth />
               </Switch>
             </Container>
             <Footer />
