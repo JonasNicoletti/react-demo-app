@@ -11,15 +11,12 @@ import "./App.css";
 import { useToogleTheme } from "modules/common/hooks";
 import { useAuth } from "modules/common/contexts/auth-context";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import React, { useEffect } from "react";
-import { Login } from "modules/login/components";
-import { Registration } from "modules/registration/components";
+import { useEffect } from "react";
+import { Login, Registration, PasswordForgot, PasswordReset } from "modules/auth";
 import { Api } from "modules/common/api";
 import { useState } from "react";
 import { Footer, Header } from "modules/common/components";
 import { Home } from "modules/home/components";
-import { PasswordForgot } from "modules/password-forgot/components";
-import { PasswordReset } from "modules/password-reset/components";
 
 const useStyles = makeStyles((theme) => ({
   root: {
